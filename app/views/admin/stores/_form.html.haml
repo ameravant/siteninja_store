@@ -1,0 +1,33 @@
+= f.error_messages
+
+%p
+  = f.label :name
+  = f.text_field :name
+
+%p
+  = f.label :address
+  = f.text_field :address
+
+%p
+  = f.label :city
+  = f.text_field :city
+
+%p
+  = f.label :state
+  = f.select :state, $USA_STATES_ARRAY
+
+%p
+  = f.label :zip
+  = f.text_field :zip, :size => 6
+
+%p
+  = f.label :phone
+  = f.text_field :phone
+
+.form-option
+  %h2 Products
+  - for p in @products
+    = check_box_tag "store[product_ids][]", p.id, @store.products.include?(p), :id => dom_id(p)
+    = f.label :product_ids, h(p.name.titleize)
+    %br
+%p= f.submit "Save store", :class => "big"

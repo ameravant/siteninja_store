@@ -1,0 +1,12 @@
+- content_for(:meta_title) do
+  = @productcategory.name
+- content_for(:meta_description) do
+  = @productcategory.description
+= render :partial => "products/sidecolumn2"
+%h1= @productcategory.name
+= @productcategory.body
+%ul.product-list
+  - for p in @productcategory.products
+    %li.product
+      = render :partial => "/products/product", :locals => { :product => p }
+      = cycle("", "", "<li class=\"clear\"></li>")

@@ -1,0 +1,31 @@
+- content_for :meta_title do
+  Product Categories
+
+- content_for :head do
+  %style{:type => "text/css", :media => "screen"}
+    ul.sortable { list-style: none; margin: 4px 0 0 -30px; }
+    ul.sortable ul { margin: 4px 0 0 -20px; }
+    ul.sortable li { line-height: 2em; }
+    div.category-title-header { float: left; width: 60px; font-weight: bold; color: #666; margin: 0 0 0 10px; }
+    div.category-options-header { float: right; width: 60px; text-align: left; font-weight: bold; color: #666; }
+    div.category-assets-header { float: right; width: 100px; text-align: left; font-weight: bold; margin-right: 20px; color: #666; }
+    div.category-title { float: left; margin-right: 20px; }
+    div.category-options { text-align: right; float: right; width: 60px; }
+    div.category-assets { float: right; margin-right: 20px; width: 100px; text-align: left; }
+
+%h1= large_icon('Cube') + ' ' + yield(:meta_title).strip
+
+.box
+  #reorder_status.gray.float-right{:style => "display: none"}
+    = spinner
+    Reordering categories...
+  %span.hmenu
+    = icon "Plus", new_admin_product_category_path
+    = link_to "Make a new category", new_admin_product_category_path
+%br
+%div.category-title-header
+  Title
+%div.category-options-header
+  Options
+= clear
+- build_tree

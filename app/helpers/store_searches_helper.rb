@@ -1,0 +1,2 @@
+module StoreSearchesHelper
+end

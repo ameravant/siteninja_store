@@ -1,0 +1,12 @@
+	<%- content_for :side_column do -%>
+	  
+    <%- unless @testimonial.blank? -%>
+    <div class="testimonial">
+        <blockquote>
+          <%= @testimonial.quote %>
+        </blockquote>
+        <cite><%= @testimonial.author %></cite>
+      </div>
+		<%- end #Testimonial -%>
+		
+	<%- end -%>

@@ -1,0 +1,49 @@
+<%= error_messages_for "address" %>
+
+<table cellspacing="0" class="full">
+  <tr>
+    <td><%= f.label :first_name %></td>
+    <td><%= f.text_field :first_name, :size => 15 %></td>
+  </tr>
+  <tr>
+    <td><%= f.label :last_name %></td>
+    <td><%= f.text_field :last_name, :size => 15 %></td>
+  </tr>
+  <%- if address_type == "shipping" -%>
+  <tr>
+    <td><%= f.label :email, "Email address" %></td>
+    <td><%= f.text_field :email, :size => 20 %></td>
+  </tr>
+  <%- end -%>
+  <tr>
+    <td><%= f.label :street_address %></td>
+    <td><%= f.text_field :street_address, :size => 20 %></td>
+  </tr>
+  <tr>
+    <td><%= f.label :street_address_2 %></td>
+    <td>
+      <%= f.text_field :street_address_2, :size => 20 %>
+      <span class="gray">optional</span>
+    </td>
+  </tr>
+  <tr>
+    <td><%= f.label :city %></td>
+    <td><%= f.text_field :city, :size => 20 %></td>
+  </tr>
+  <tr>
+    <td><%= f.label :location_id %></td>
+    <td><%= f.select :location_id, @locations.collect { |l| [l.name, l.id ]}, :include_blank => true %></td>
+  </tr>
+  <tr>
+    <td><%= f.label :postal_code %></td>
+    <td><%= f.text_field :postal_code, :size => 12 %></td>
+  </tr>
+</table>
+
+<%- if address_type == "shipping" -%>
+<br/>
+<div>
+  <%= check_box_tag "same_addresses", "yes", true %>
+  <label for="same_addresses">Also use this address as my billing address</label>
+</div>
+<%- end -%>

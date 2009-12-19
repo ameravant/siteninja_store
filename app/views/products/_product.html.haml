@@ -1,0 +1,5 @@
+- unless product.images.blank? 
+  =link_to image_tag(product.images.first.image.url(:medium), :title => product.images.first.image.name, :alt => product.images.first.caption), product, :class => "product-image"
+
+%h2=link_to product.name, product
+-real_price(product) unless product.price.blank?

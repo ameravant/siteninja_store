@@ -1,0 +1,77 @@
+<%- content_for :title do -%>Checkout: Review Your Order<%- end -%>
+
+<%- content_for :checkout_steps do -%>
+  <%= link_to "Shipping Information", shipping_path %> &raquo;
+  <%= link_to "Billing Information", billing_path %> &raquo;
+  <span>Review Order</span> &raquo;
+  Finished
+<%- end -%>
+
+<h1>Review Your Order</h1>
+
+<%= error_messages_for "order", :message => nil, :header_message => "Your order could not be submitted." %>
+
+<p class="box big">
+  Your order is not yet submitted. Please review your entire order below.
+  If everything looks good, submit your order by clicking the button at the bottom
+  of the page.
+</p>
+adfasdfa
+<%= $PAYJUNCTION_LOGIN %>
+<table cellspacing="0" class="full">
+  <thead>
+    <tr>
+      <th>Shipping information</th>
+      <th>Billing address</th>
+      <th>Payment information</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="top">
+      <td>
+        <div>
+          <%= h session[:shipping_address]['first_name'] %>
+          <%= h session[:shipping_address]['last_name'] %>
+        </div>
+        <div><%= h session[:shipping_address]['street_address'] %></div>
+        <div><%= h session[:shipping_address]['street_address_2'] %></div>
+        <div><%= h session[:shipping_address]['city'] %>, <%= h @shipping_location.name %> <%= h session[:shipping_address]['postal_code'] %></div>
+        <div class="small">
+          <br/>
+          <%= h session[:shipping_method][:name] %><br/>
+          <%= h session[:shipping_address]['email'] %><br/>
+        </div>
+      </td>
+      <td>
+        <div>
+          <%= h session[:billing_address]['first_name'] %>
+          <%= h session[:billing_address]['last_name'] %>
+        </div>
+        <div><%= h session[:billing_address]['street_address'] %></div>
+        <div><%= h session[:billing_address]['street_address_2'] %></div>
+        <div><%= h session[:billing_address]['city'] %>, <%= h @billing_location.name %>  <%= h session[:billing_address]['postal_code'] %></div>
+      </td>
+      <td>
+        <div><%= h session[:card]['card_type'].titleize %></div>
+        <div><%= h session[:card]['card_number'] %></div>
+        <div>Expires <%= h session[:card]['exp_month'] %>/<%= h session[:card]['exp_year'] %></div>
+      </td>
+    </tr>
+    <tr>
+      <td><%= icon "Cube", shipping_path %> <%= link_to "Change shipping information", shipping_path %> &nbsp;</td>
+      <td><%= icon "Currency Dollar", billing_path %> <%= link_to "Change billing information", billing_path %> &nbsp;</td>
+      <td><%= icon "Currency Dollar", billing_path %> <%= link_to "Change payment information", billing_path %> &nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+<br/>
+
+<h1>Items Ordered</h1>
+
+<%= render :partial => "/carts/cart_table", :locals => { :for_order => true } %>
+
+<% form_for @order, :html => { :onsubmit => "form_submitted('Submitting your order, please wait for confirmation...')" } do |f| %>
+<%- fancy_submit do %>
+  <%= f.submit "Everything looks good &mdash; Submit my order", :class => "big" %>
+<%- end -%>
+<% end %>

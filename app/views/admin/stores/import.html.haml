@@ -1,0 +1,12 @@
+- content_for :crumb do
+  == #{link_to "Dashboard", "/admin"} &gt;
+  == #{link_to "Stores", admin_stores_path} &gt;
+  Import Stores
+
+%h1 Import Stores
+- form_for :dump, :url=> csv_import_admin_stores_path, :html => { :multipart => true } do |f|  %div.note-box
+
+  %div.form-option
+    = label :file, "Select a CSV File:"
+    = f.file_field :file
+    = submit_tag "Import"

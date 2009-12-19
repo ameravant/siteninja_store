@@ -1,0 +1,19 @@
+%p.icon
+= icon "Plus", new_admin_location_path
+= link_to "Add New Location", new_admin_location_path
+%table
+  %tr
+    %th State
+    %th Tax Rate
+  - for l in @locations
+    %tr{:class => cycle('odd', 'even')} 
+      %td{:style => "width:230px;"}
+        = icon "Write", edit_admin_location_path(l)
+        = link_to l.name, edit_admin_location_path(l)
+      %td
+        - if l.sales_tax_rate      
+          &#37;
+          =l.sales_tax_rate
+      %td
+        = link_to (image_tag("#{icons_loc}/gray/16x16/Trash.png", :class => "icon", :alt => "Delete #{l.name}") , admin_location_path(l) , :confirm => "Are you sure you want to delete #{l.name}?", :method => :delete)
+

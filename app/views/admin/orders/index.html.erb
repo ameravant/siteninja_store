@@ -1,0 +1,50 @@
+<%- content_for(:title) { concat "Orders" } -%>
+
+<%- content_for :crumb do -%>
+  <%= link_to "Dashboard", "/admin" %> &gt;
+  <%= yield :title %>
+<%- end -%>
+
+<h1><%= yield :title %></h1>
+
+
+<%- unless params[:q].blank? -%>
+<h2>Found <%= pluralize @all_orders.size, "order" %>.</h2>
+<%- end -%>
+
+<%- if @orders.empty? -%>
+  No orders have been placed.
+<%- else -%>
+  <table cellspacing="0" class="full">
+    <thead>
+      <tr>
+        <th colspan="2"></th>
+        <th>ID</th>
+        <th>Placed</th>
+        <th>Customer</th>
+        <th>Amount</th>
+        <th>Billing Status</th>
+        <th>Shipping Status</th>
+      </tr>
+    </thead>
+    <%- if @orders.total_pages > 1 -%>
+    <tfoot>
+      <tr><td colspan="5"><%= will_paginate @orders %></td></tr>
+    </tfoot>
+    <%- end -%>
+    <tbody>
+      <%- for o in @orders -%>
+      <tr class="<%= cycle 'odd', 'even' %>">
+        <td><%= icon "Write2", edit_admin_order_path(o) %></td>      
+        <td><%= icon "Search", admin_order_path(o) %></td>
+        <td><%= link_to "Order #{o.id}", admin_order_path(o) %></td>
+        <td><%= o.created_at.to_s(:datetime_with_zone) %></td>
+        <td><%= link_to h(o.shipping_address.name), admin_order_path(o) %></td>
+        <td><%= number_to_currency o.total %></td>
+        <td><%= o.billing_status %></td>
+        <td><%= o.shipping_status %></td>
+      </tr>
+      <%- end -%>
+    </tbody>
+  </table>
+<%- end -%>

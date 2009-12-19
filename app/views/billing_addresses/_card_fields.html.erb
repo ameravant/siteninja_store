@@ -1,0 +1,26 @@
+<%- fields_for @card do |c| -%>
+<table cellspacing="0" class="full">
+  <tr>
+    <td><%= c.label :card_type %></td>
+    <td><%= c.select :card_type, [['Visa','visa'],['MasterCard','master'],['American Express','american_express'],['Discover','discover'],['Diner\'s Club','diners_club'],['JCB','jcb']] %></td>
+  </tr>
+  <tr>
+    <td><%= c.label :card_number %></td>
+    <td><%= c.text_field :card_number, :maxlength => 19, :size => 20 %></td>
+  </tr>
+  <tr>
+    <td>Expires</td>
+    <td>
+      <%= c.select :month, (1..12) %>
+      <%= c.select :year, (Date.today.year..10.years.from_now.year)%>
+    </td>
+  </tr>
+  <tr>
+    <td><%= c.label :security_code %></td>
+    <td>
+      <%= c.text_field :security_code, :maxlength => 4, :size => 4 %>
+      <%= link_to "help", "/images/card_security_code.png", :rel => "lightbox", :title => "Finding your card security code" %>
+    </td>
+  </tr>
+</table>
+<%- end -%>

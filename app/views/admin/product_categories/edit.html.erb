@@ -1,0 +1,13 @@
+<%- content_for(:title) { concat "Edit #{@product_category.name}" } -%>
+
+<%- content_for :crumb do -%>
+  <%= link_to "Dashboard", "/admin" %> &gt;
+  <%= link_to "Products Categories", admin_product_categories_path %> &gt;
+  Edit Product Category
+<%- end -%>
+
+<h1><%= yield :title %></h1>
+
+<% form_for [:admin, @product_category], :html => { :method => :put, :onsubmit => "form_submitted()", :multipart => true } do |f| %>
+<%= render :partial => "form", :locals => { :f => f } %>
+<% end %>

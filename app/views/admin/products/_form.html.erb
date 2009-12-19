@@ -1,0 +1,84 @@
+<%- content_for :head do -%>
+<style type="text/css">
+  .product-category-cell div {display:block; overflow: auto; width: 100%; height: 200px; font-size: .85em; }
+  .product-category-cell ul{list-style: none; margin: 0; padding: 0 0 5px 10px;}
+</style>
+<%- end -%>
+
+<%= error_messages_for "product" %>
+
+<table cellspacing="0">
+  <tr>
+    <td>Name:</td>
+    <td><%= f.text_field :name, :class => "big" %></td>
+  </tr>
+  <tr>
+    <td>Size:</td>
+    <td>
+      <%= f.text_field :size, :size => 10 %>
+      <span class="gray">optional</span>
+    </td>
+  </tr>
+  <tr>
+    <td>Product SKU:</td>
+    <td>
+      <%= f.text_field :sku, :size => 10 %>
+    </td>
+  </tr>
+  <tr>
+    <td>Price:</td>
+    <td>
+      $<%= f.text_field :price, :size => 10 %>
+      &nbsp;&nbsp;&nbsp;
+      Sale price: $<%= f.text_field :sale_price, :size => 10 %>
+      <span class="gray">optional</span>
+    </td>
+  </tr>
+  <tr>
+  	<td colspan="2">
+      <%= f.check_box :featured %>
+      <%= f.label :featured, "Feature on main products page." %>
+  	</td>
+  </tr>
+  <tr>
+    <td>Add to Cart Code:</td>
+    <td>
+      <%= f.text_area :cart_code, :size => "50x5" %>
+      <p class="small gray">If you are using a third party shopping cart, paste the generated "Add to Cart" code here.</p>
+    </td>
+  </tr>
+  <%-unless @product_categories.empty?-%>
+  <tr>
+  	<td>Product Category:</td>
+  	<td class="product-category-cell">
+  	  <div>
+  	    <%- build_form_children(nil, @product) -%>
+  	  </div>
+  	</td>
+  </tr>
+  <%- end -%>
+  <tr>
+    <td colspan="2">
+      Description:<br/>
+      <%= f.text_area :description, :class => "mceEditor", :size => "70x30" %>
+    </td>
+  </tr>
+  <tr><td colspan="2">
+		<% fancy_submit admin_products_path do %>
+		<%= f.submit "Save Product" %>
+		<% end %>
+	</td></tr>
+</table>
+<div class="form-option">
+<h2>Related Products</h2>
+<%- @products.each do |p| -%>
+<div>
+  <%= check_box_tag "product[related_product_ids][]", p.id, @product.related_products.include?(p), :id => dom_id(p) %>
+  <label for="<%=dom_id(p)%>"><%= h p.name.titleize %></label>
+</div>
+<%- end -%>
+</div>
+
+<% fancy_submit admin_products_path do %>
+  <%= f.submit "Save Product" %>
+<% end %>

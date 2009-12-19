@@ -1,0 +1,39 @@
+- content_for(:title) { concat "Stores" }
+
+- content_for :crumb do
+  == #{link_to "Dashboard", "/admin"} &gt;
+  = h(yield :title)
+
+%h1 Stores
+
+%p.icon
+  = icon "Plus"
+  = link_to "Add a new store", new_admin_store_path
+  &nbsp;&nbsp;
+  =# icon "Document"
+  =# link_to "Import Stores", import_admin_stores_path
+%h2
+  == Found #{pluralize @all_stores.size, 'store'}
+  - unless params[:q].blank?
+    == matching "#{params[:q]}"
+
+/%p= render :partial => "/layouts/search"
+
+
+
+- unless @stores.current_page == 1
+  %p== Page #{@stores.current_page} of #{@stores.total_pages}
+
+%table
+  - for store in @stores
+    %tr[store]{:class => cycle("odd","even")}
+      %td
+        = icon "Write"
+        = link_to h(store.name), edit_admin_store_path(store)
+      %td= h store.location
+      %td
+        = link_to_remote "Delete", :url => [:admin, store], :method => :delete, :loading => "$('spinner_#{dom_id store}').show()", :confirm => "Are you sure you want to delete #{store.name}?"
+        = image_tag "spinner.gif", :style => "display: none", :id => "spinner_#{dom_id store}"
+
+- if @stores.total_pages > 1
+  %p= will_paginate @stores

@@ -1,0 +1,17 @@
+<%= error_messages_for "sales_taxes" %>
+
+<table cellspacing="0">
+  <tr>
+    <td>State:</td>
+    <td><%= f.text_field :name, :class => "big" %></td>
+  </tr>
+  <tr>
+    <td>Sales tax rate:</td>
+    <td><%= f.text_field :sales_tax_rate %></td>
+  </tr>
+</table>
+
+<br /><br />
+<% fancy_submit admin_products_path do %>
+  <%= f.submit "Save Rate" %>
+<% end %>

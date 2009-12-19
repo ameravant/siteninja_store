@@ -1,0 +1,13 @@
+<%- content_for :title do -%>CMS Dashboard<%- end -%>
+
+<h1><%= yield :title %></h1>
+
+<div class="col-left">
+  <%= render :partial => "bookmarks" %>
+</div>
+
+<div class="col-right">
+  <%= render :partial => "orders" %>
+</div>
+
+<%= clear %>

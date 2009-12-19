@@ -1,0 +1,81 @@
+<%- content_for(:title) { concat "Order #{@order.id}" } -%>
+
+<%- content_for :crumb do -%>
+  <%= link_to "Dashboard", "/admin" %> &gt;
+  <%= yield :title %>
+<%- end -%>
+
+<h1><%= yield :title %></h1>
+
+<div class="col-left">
+  <h2>Shipping Address</h2>
+  <%- for a in @order.shipping_address.to_a -%>
+  <div><%= auto_link h(a) %></div>
+  <%- end -%>
+  <div><%= h @order.shipping_method.name %></div>
+</div>
+
+<div class="col-right">
+  <h2>Billing Address</h2>
+  <%- for a in @order.billing_address.to_a -%>
+  <div><%= auto_link h(a) %></div>
+  <%- end -%>
+</div>
+
+<%= clear %>
+<br/>
+
+<table cellspacing="0" class="full cart">
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Price</th>
+      <th class="center">Quantity</th>
+      <th class="right">Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render :partial => "/carts/cart_item", :collection => @order.order_items, :locals => { :for_order => true } %>  </tbody>
+  </table>
+</table>
+<br/>
+
+<table cellspacing="0" class="big">
+  <tr>
+    <td>Subtotal:</td>
+    <td><%= number_to_currency(@order.subtotal) %></td>
+  </tr>
+  <tr>
+    <td>Sales Tax:</td>
+    <td><%= number_to_currency(@order.taxes_total) %></td>
+  </tr>
+  <tr>
+    <td>Shipping:</td>
+    <td><%= number_to_currency(@order.shipping_total) %> (<%= h @order.shipping_method.name %>)</td>
+  </tr>
+  <tr class="bold">
+    <td>Total:</td>
+    <td><%= number_to_currency(@order.total) %></td>
+  </tr>
+</table>
+<br/>
+
+<h2>Transaction Details</h2>
+<table cellspacing="0">
+  <tr>
+    <td>Card type:</td>
+    <td><%= h @order.card_type.titleize %></td>
+  </tr>
+  <tr>
+    <td>Card number:</td>
+    <td><%= h @order.card_number %></td>
+  </tr>
+  <tr>
+    <td>Gateway response:</td>
+    <td><%= h @order.response.message %></td>
+  </tr>
+  <tr>
+    <td>Authorization:</td>
+    <td><%= h @order.response.authorization %></td>
+  </tr>
+</table>

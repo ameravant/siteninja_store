@@ -1,0 +1,74 @@
+<p><strong>Purchase Information</strong></p>
+
+<table cellspacing="5" cellpadding="5">
+  <tbody>
+    <tr style="vertical-align: top;" valign="top">
+      <td>
+        <strong>Billing address:</strong><br/>
+        <%- for line in @billing_address.to_a -%>
+        <%= line %><br/>
+        <%- end -%>
+      </td>
+      <td>
+        <strong>Shipping address:</strong><br/>
+        <%- for line in @shipping_address.to_a -%>
+        <%= line %><br/>
+        <%- end -%>
+      </td>
+      <td>
+        <strong>Shipping method:</strong><br/>
+        <%= @shipping_method.name %><br/>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Order Summary</strong></p>
+
+<table cellspacing="5" cellpadding="5">
+  <tbody>
+    <tr>
+      <td>Placed:</td>
+      <td><%= @order.created_at.to_s(:datetime_with_weekday_and_zone) %></td>
+    </tr>
+    <tr>
+      <td>Order number:</td>
+      <td><%= @order.id %></td>
+    </tr>
+    <tr>
+      <td>Sales tax:</td>
+      <td><%= number_to_currency @order.taxes_total %></td>
+    </tr>
+    <tr>
+      <td>Shipping:</td>
+      <td><%= number_to_currency @order.shipping_total %></td>
+    </tr>
+    <tr>
+      <td>Grand total:</td>
+      <td><%= number_to_currency @order.total %></td>
+    </tr>
+  </tbody>
+</table>
+<br/>
+
+<table cellspacing="5" cellpadding="5" width="100%">
+  <thead>
+    <tr>
+      <td><strong>Item</strong></th>
+      <td><strong>Price Paid</strong></th>
+      <td><strong>Quantity</strong></th>
+      <td><strong>Total</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%- for order_item in @order_items -%>
+    <tr>
+      <td><%= h order_item.name %></td>
+      <td><%= number_to_currency order_item.real_price %></td>
+      <td><%= h order_item.quantity %></td>
+      <td><%= number_to_currency order_item.total %></td>
+    </tr>
+    <%- end -%>
+  </tbody>
+</table>
+<br/>

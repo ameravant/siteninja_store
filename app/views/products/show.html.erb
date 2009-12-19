@@ -1,0 +1,43 @@
+<%-
+content_for(:meta_title) { concat @product.name }
+content_for(:meta_description) { concat truncate(strip_tags(@product.description), 250) unless @product.description.blank? }
+-%>
+
+<%#- if @subselected == "home" -%>
+	<h1><%= @product.name %></h1>
+	<%= render :partial => "/shared/image_box", :locals => { :owner => @product } unless @product.images.empty? %>
+	<div id="pricing">
+	  <h2>Pricing</h2>
+      <div class = "add-to-cart">
+        
+        <%= "Size: #{@product.size}<br />" unless @product.size.blank? %>
+        <%= "Product SKU: #{@product.sku}<br />" unless @product.sku.blank? %>
+        <% real_price(@product) %><br />
+        <%- unless @product.cart_code.blank? %>
+          <%= @product.cart_code %>
+        <%- end -%>
+        <%-if @cms_config['modules']['store']-%>
+        <%= button_to "Add to cart", [:add_to_cart, @product], :method => :put, :class => "big" %>
+        <%- end -%>
+      </div>
+	</div>
+	<h2>Description</h2>
+	
+	<%= @product.description %>
+<%#- else -%>
+	<%#= @heading2 %>
+	<%#= @content %>
+<%#- end #Main Content-%>
+<%- unless @product.related_products.blank? -%>
+  <h2>Related Products</h2>
+  <ul>
+  <%- for product in @product.related_products -%>
+    <li><%= link_to(product.name, product_path(product)) %></li>
+  <%- end -%>
+  </ul>
+<%- end -%>
+
+<%- unless @testimonial.blank? -%>
+	<%= render :partial => "sidecolumn"%>
+<%- end -%>
+<%= render :partial => "sidecolumn2" %>

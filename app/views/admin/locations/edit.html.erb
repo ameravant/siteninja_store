@@ -1,0 +1,13 @@
+<%- content_for(:title) { concat "Edit #{@location.name}" } -%>
+
+<%- content_for :crumb do -%>
+  <%= link_to "Dashboard", "/admin" %> &gt;
+  <%= link_to "locations", admin_locations_path %> &gt;
+  <%= yield :title %>
+<%- end -%>
+
+<h1><%= yield :title %></h1>
+
+<% form_for :location, :url => admin_location_path(@location), :html => { :method => :put, :onsubmit => "form_submitted()" } do |f| %>
+<%= render :partial => "form", :locals => { :f => f } %>
+<% end %>
