@@ -1,0 +1,12 @@
+%tr.product
+  %td
+    %img.product-image{:src=>product.images.first.image.url(:medium)}
+  %td.data-cell
+    %div.product-title
+      = product.name
+    %div.product-price
+      = "Price: $%d" % product.price
+    %div.product-shipping
+      Shipping: $4.99
+    %br
+    %div.googlecart-add-button{:role=>"button", :alt=>"Add to cart", :tabindex=>"0"}
