@@ -6,7 +6,7 @@ class ProductsController < ApplicationController
 
   def index
   	
-    @products = Product.all(:conditions => { :featured => true })
+    @products = Product.all
     @heading = "Product"
     add_breadcrumb 'Product'
   end

@@ -1,0 +1,11 @@
+%li.product
+  %img.product-image{:src=>cart_item.images.first.image.url(:small)}
+  %span.product-title
+    = cart_item.name
+  %span.product-price
+    = "Price: $%d" % cart_item.price
+  %span.product-shipping
+    Shipping: $4.99
+  %br
+  -if @cms_config["site_settings"]["google_merchant_id"] != ""
+    %div.googlecart-add-button{:role=>"button", :alt=>"Add to cart", :tabindex=>"0"}

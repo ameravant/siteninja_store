@@ -1,6 +1,6 @@
 %h1 Products
-%table
-  - for p in @products
-    =render :partial => "google_cart_item", :locals => { :product => p }
+%ul
+  =render :partial => "cart_item", :collection => @products
   = cycle("", "", "<li class=\"clear\"></li>")
-%script#googlecart-script{:type=>"text/javascript", :src=>"http://checkout.google.com/seller/gsc/v2/cart.js?mid=#{CMS_CONFIG["site_settings"]["google_merchant_id"]}", :currency=>"USD"}
+-if @cms_config["site_settings"]["google_merchant_id"] != "" 
+  %script#googlecart-script{:type=>"text/javascript", :src=>"http://checkout.google.com/seller/gsc/v2/cart.js?mid=#{CMS_CONFIG["site_settings"]["google_merchant_id"]}", :currency=>"USD"}

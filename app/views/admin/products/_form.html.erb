@@ -40,13 +40,15 @@
       <%= f.label :featured, "Feature on main products page." %>
   	</td>
   </tr>
-  <tr>
-    <td>Add to Cart Code:</td>
-    <td>
-      <%= f.text_area :cart_code, :size => "50x5" %>
-      <p class="small gray">If you are using a third party shopping cart, paste the generated "Add to Cart" code here.</p>
-    </td>
-  </tr>
+  <%-if !CMS_CONFIG["site_settings"]["google_checkout_id"]-%>
+    <tr>
+      <td>Add to Cart Code:</td>
+      <td>
+        <%= f.text_area :cart_code, :size => "50x5" %>
+        <p class="small gray">If you are using a third party shopping cart, paste the generated "Add to Cart" code here.</p>
+      </td>
+    </tr>
+  <%-end-%>
   <%-unless @product_categories.empty?-%>
   <tr>
   	<td>Product Category:</td>
