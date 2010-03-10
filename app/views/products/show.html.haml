@@ -4,12 +4,11 @@
   = image_tag("#{@product.images.first.image.url(:large)}", :class => "product-image", :alt => "#{@product.name}")
   %h1.product-description Description
   %p=@product.description
-  %h2.product-price
-    -if @product.sale_price
-      %h2.regular-price= "Price: #{number_to_currency(@product.price)}"
-      %h2.sale-price.product-price= "Sale Price: #{number_to_currency(@product.sale_price)}"
-    -else
-      %h2.product-price= "Price: #{number_to_currency(@product.price)}"
+  -if @product.sale_price
+    %h2.regular-price= "Price: #{number_to_currency(@product.price)}"
+    %h2.sale-price.product-price= "Sale Price: #{number_to_currency(@product.sale_price)}"
+  -else
+    %h2.product-price= "Price: #{number_to_currency(@product.price)}"
   %br
   -if @cms_config["site_settings"]["google_merchant_id"]
     %div.googlecart-add-button{:role=>"button", :alt=>"Add to cart", :tabindex=>"0"}
