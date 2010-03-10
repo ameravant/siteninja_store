@@ -35,6 +35,12 @@
     </td>
   </tr>
   <tr>
+    <td>Weight:(required for shipping unless flat-rate or free shipping is offered)</td>
+    <td>
+      $<%= f.text_field :weight, :size => 10 %>
+    </td>
+  </tr>
+  <tr>
   	<td colspan="2">
       <%= f.check_box :featured %>
       <%= f.label :featured, "Feature on main products page." %>
