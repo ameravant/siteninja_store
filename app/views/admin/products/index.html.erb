@@ -42,8 +42,8 @@
     	<td><%= link_to(pluralize(p.testimonials.size, "Testimonials"), admin_product_testimonials_path(p)) %></td>
       <td class="center">
         <%- if current_user.has_role(["Admin", "Editor"]) %>
-          <%- if p.images_count > 0 %>
-            <%- if p.features_count > 0 %>
+          <%- if p.images.any? %>
+            <%- if p.features.any? > 0 %>
               <%= defeature_icon(p, "/admin/products/#{p.to_param}/features/1", p.title, "inline") %>
               <%= feature_icon(p, [:admin, p, :features], p.title, "none") %>
             <%-else %>
