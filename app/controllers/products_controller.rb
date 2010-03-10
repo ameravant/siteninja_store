@@ -18,13 +18,14 @@ class ProductsController < ApplicationController
       @heading = @product.name
       @testimonial = Testimonial.find(:all, :conditions => ["quotable_id = ?" , @product.id]).sort_by(&:rand).first #Select a random testimonial
       add_breadcrumb 'Products', 'products_path'
-      @productcategory = @product.product_categories.first
-      @product_category_tmp = []
-      build_tree(@productcategory)
-      for product_category in @product_category_tmp.reverse
-        add_breadcrumb product_category.title, product_category_path(product_category)
-      end
-			
+      if @product.product_categories.any?
+        @productcategory = @product.product_categories.first
+        @product_category_tmp = []
+        build_tree(@productcategory)
+        for product_category in @product_category_tmp.reverse
+          add_breadcrumb product_category.title, product_category_path(product_category)
+        end
+			end
 			add_breadcrumb @product.name
     rescue ActiveRecord::RecordNotFound
       flash[:error] = "The product you were looking for was not found."

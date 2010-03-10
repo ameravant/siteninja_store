@@ -35,12 +35,18 @@
     </td>
   </tr>
   <tr>
+    <td>Shipping:</td>
+    <td>
+      $<%= f.text_field :shipping, :size => 10 %>
+    </td>
+  </tr>
+  <tr>
   	<td colspan="2">
       <%= f.check_box :featured %>
       <%= f.label :featured, "Feature on main products page." %>
   	</td>
   </tr>
-  <%-if !CMS_CONFIG["site_settings"]["google_checkout_id"]-%>
+  <%-unless CMS_CONFIG["site_settings"]["google_merchant_id"]-%>
     <tr>
       <td>Add to Cart Code:</td>
       <td>
@@ -65,11 +71,6 @@
       <%= f.text_area :description, :class => "mceEditor", :size => "70x30" %>
     </td>
   </tr>
-  <tr><td colspan="2">
-		<% fancy_submit admin_products_path do %>
-		<%= f.submit "Save Product" %>
-		<% end %>
-	</td></tr>
 </table>
 <div class="form-option">
 <h2>Related Products</h2>
