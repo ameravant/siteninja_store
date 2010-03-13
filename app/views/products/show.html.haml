@@ -1,17 +1,48 @@
-%div.product
-  %h1.product-title
-    = @product.name
-  = image_tag("#{@product.images.first.image.url(:large)}", :class => "product-image", :alt => "#{@product.name}")
-  %h1.product-description Description
-  %p=@product.description
-  -if @product.sale_price
-    %h2.regular-price= "Price: #{number_to_currency(@product.price)}"
-    %h2.sale-price.product-price= "Sale Price: #{number_to_currency(@product.sale_price)}"
-  -else
-    %h2.product-price= "Price: #{number_to_currency(@product.price)}"
-  %br
-  -if @cms_config["site_settings"]["google_merchant_id"]
-    %div.googlecart-add-button{:role=>"button", :alt=>"Add to cart", :tabindex=>"0"}
-    %script#googlecart-script{:type=>"text/javascript", :src=>"http://checkout.google.com/seller/gsc/v2/cart.js?mid=#{CMS_CONFIG["site_settings"]["google_merchant_id"]}", :currency=>"USD"}
-  -else
-    =@product.cart_code if @product.cart_code
+- content_for(:meta_title) { concat @product.name }
+- content_for(:meta_description) { concat truncate(strip_tags(@product.description), 250) unless @product.description.blank? }
+
+/ Add google cart here if needed
+-if @cms_config["site_settings"]["google_merchant_id"]
+  - content_for :footer do
+    ==<script id="googlecart-script" type="text/javascript" src="http://checkout.google.com/seller/gsc/v2/cart.js?mid=#{@cms_config["site_settings"]["google_merchant_id"]}" post-cart-to-sandbox="true" currency="USD" />
+
+
+%h1= @product.name
+= render :partial => "/shared/image_box", :locals => { :owner => @product } unless @product.images.empty?
+#pricing
+  %h2
+    Pricing
+  %div{:class => "add-to-cart product"}
+    %span.product-title= @product.name
+    %br
+    = "Size: #{@product.size}<br />" unless @product.size.blank?
+    = "Product SKU: #{@product.sku}<br />" unless @product.sku.blank?
+    = "Weight: #{@product} <br />" unless @product.weight.blank?
+    -if @product.sale_price
+      %span.regular-price= "Price: #{number_to_currency(@product.price)}"
+      %span.sale-price.product-price= "Sale Price: #{number_to_currency(@product.sale_price)}"
+    -else
+      %span.product-price= "Price: #{number_to_currency(@product.price)}"
+    -if @product.weight
+      %input.product-weight{:type=>"hidden", :value=>"#{@product.weight}"}
+    %br
+    - if !@product.cart_code.blank?
+      = @product.cart_code
+    - elsif @cms_config["site_settings"]["google_merchant_id"]
+      %div.googlecart-add-button{:role=>"button", :alt=>"Add to cart", :tabindex=>"0", :style => "position: relative;"}
+    
+%h2
+  Description
+= @product.description
+
+/Related Products
+- unless @product.related_products.blank?
+  %h2
+    Related Products
+  %ul
+    - for product in @product.related_products
+      %li= link_to(product.name, product_path(product))
+
+- unless @testimonial.blank?
+  = render :partial => "sidecolumn"
+  = render :partial => "sidecolumn2"

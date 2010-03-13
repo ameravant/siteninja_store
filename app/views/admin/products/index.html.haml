@@ -1,0 +1,57 @@
+- content_for(:title) { concat "Products" }
+
+%h1
+  = yield :title
+%p.icon
+  = icon "Plus", new_admin_product_path
+  = link_to "Create a new product", new_admin_product_path
+  
+  = icon "Dots Down", admin_product_categories_path
+  = link_to "View Product Categories", admin_product_categories_path
+  
+  / - if @cms_config['modules']['store']
+  /   = icon "Mail", admin_shipping_methods_path
+  /   = link_to "View Shipping Methods", admin_shipping_methods_path
+  / 
+  / = icon "Percent", admin_locations_path
+  / = link_to "Change Tax Rates", admin_locations_path
+
+- unless @products.total_pages == 1
+  = will_paginate @products
+%table.full{ :cellspacing => "0", :style => "width: 100%;" }
+  %thead
+    %tr
+      %th
+        Name
+      %th
+        Price
+      %th
+        Images
+      %th
+        Testimonials
+      %th.center
+        Options
+  %tbody
+    -@products.each do |p|
+      %tr{ :class => cycle('row1', 'row2'), :id => "#{dom_id(p)}" }
+        %td
+          = link_to h(p.name), edit_admin_product_path(p), :title => "Edit this product"
+        %td
+          = number_to_currency p.price, :unit => '$' unless p.price.blank?
+        %td
+          = link_to pluralize(p.images_count, "Image"), admin_product_path(p), :title => "Manage images for this product"
+        %td
+          = link_to(pluralize(p.testimonials.size, "Testimonials"), admin_product_testimonials_path(p))
+        %td.center
+          - if current_user.has_role(["Admin", "Editor"])
+            - if p.images_count > 0
+              - if p.features_count > 0
+                = defeature_icon(p, "/admin/products/#{p.to_param}/features/1", p.title, "inline")
+                = feature_icon(p, [:admin, p, :features], p.title, "none")
+              - else
+                = feature_icon(p, [:admin, p, :features], p.title, "inline")
+                = defeature_icon(p, "/admin/products/#{p.to_param}/features/1", p.title, "none")
+            - else
+              = disabled_feature_icon(p, [:new, :admin, p, :feature], p.title)
+          = link_to icon("Write"), edit_admin_product_path(p)
+          = trash_icon(p, admin_product_path(p), "#{p.name}")
