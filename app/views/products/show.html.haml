@@ -2,10 +2,10 @@
 - content_for(:meta_description) { concat truncate(strip_tags(@product.description), 250) unless @product.description.blank? }
 
 / Add google cart here if needed
--if @cms_config["site_settings"]["google_merchant_id"] 
+-if @cms_config["site_settings"]["google_merchant_id"]
+  /Add this line to the script tag to enable sandbox testing
   - content_for :footer do
-    ==<script id="googlecart-script" type="text/javascript" src="http://checkout.google.com/seller/gsc/v2/cart.js?mid=#{@cms_config["site_settings"]["google_merchant_id"]}" post-cart-to-sandbox="true" currency="USD" />
-
+    ==<script id="googlecart-script" type="text/javascript" src="http://checkout.google.com/seller/gsc/v2/cart.js?mid=#{@cms_config["site_settings"]["google_merchant_id"]}" post-to-sandbox="#{RAILS_ENV=="development"}" currency="USD" />
 
 %h1= @product.name
 = render :partial => "/shared/image_box", :locals => { :owner => @product } unless @product.images.empty?
