@@ -10,7 +10,8 @@
       %select{:name => "product_category[parent_id]", :id => "product_category_parent_id"}
         %option{:value => ""}Select a parent category
         - for o in @options_for_parent_id
-          %option{:value => o[1] , :selected => (@product_category.parent_id and o[1] == @product_category.parent_id ? "selected" : nil)}= o[0]
+          -if o[1] != @product_category.id
+            %option{:value => o[1] , :selected => (@product_category.parent_id and o[1] == @product_category.parent_id ? "selected" : nil)}= o[0]
   %tr
     %td= f.label :description, "Blurb"
     %td= f.text_area :description, :size => "30x4"

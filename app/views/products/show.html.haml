@@ -2,7 +2,7 @@
 - content_for(:meta_description) { concat truncate(strip_tags(@product.description), 250) unless @product.description.blank? }
 
 / Add google cart here if needed
--if @cms_config["site_settings"]["google_merchant_id"]
+-if @cms_config["site_settings"]["google_merchant_id"] 
   - content_for :footer do
     ==<script id="googlecart-script" type="text/javascript" src="http://checkout.google.com/seller/gsc/v2/cart.js?mid=#{@cms_config["site_settings"]["google_merchant_id"]}" post-cart-to-sandbox="true" currency="USD" />
 
@@ -28,7 +28,7 @@
     %br
     - if !@product.cart_code.blank?
       = @product.cart_code
-    - elsif @cms_config["site_settings"]["google_merchant_id"]
+    - elsif @cms_config["site_settings"]["google_merchant_id"] and @product.display_add_cart and @product.price
       %div.googlecart-add-button{:role=>"button", :alt=>"Add to cart", :tabindex=>"0", :style => "position: relative;"}
     
 %h2
@@ -45,4 +45,4 @@
 
 - unless @testimonial.blank?
   = render :partial => "sidecolumn"
-  = render :partial => "sidecolumn2"
+  /= render :partial => "sidecolumn2"

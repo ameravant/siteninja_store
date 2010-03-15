@@ -1,7 +1,7 @@
 - content_for :side_column do
-  / - unless @testimonial.blank?
-  /   .testimonial
-  /     %blockquote
-  /       = @testimonial.quote
-  /     %cite
-  /       = @testimonial.author
+  - unless @testimonial.blank?
+    .testimonial
+      %blockquote
+        = @testimonial.quote
+      %cite
+        = @testimonial.author

@@ -74,7 +74,6 @@ class Admin::ProductCategoriesController < AdminController
         build_options(child.id)
       end
     end
-
     @options_for_parent_id_level = @options_for_parent_id_level - 1
   end
   

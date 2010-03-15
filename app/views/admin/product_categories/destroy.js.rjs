@@ -1,1 +1,1 @@
-page.visual_effect :fade, dom_id(@product_line), :duration => 1
+page.visual_effect :fade, dom_id(@product_category), :duration => 1

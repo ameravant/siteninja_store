@@ -39,7 +39,7 @@
         %td
           = number_to_currency p.price, :unit => '$' unless p.price.blank?
         %td
-          = link_to pluralize(p.images_count, "Image"), admin_product_path(p), :title => "Manage images for this product"
+          = link_to pluralize(p.images_count, "Image"), admin_product_images_path(p), :title => "Manage images for this product"
         %td
           = link_to(pluralize(p.testimonials.size, "Testimonials"), admin_product_testimonials_path(p))
         %td.center
