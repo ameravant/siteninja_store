@@ -2,6 +2,7 @@ class Product < ActiveRecord::Base
   has_many :images, :as => :viewable, :dependent => :destroy
   has_many :testimonials,  :as => :quotable, :dependent => :destroy
   has_many :features, :as => :featurable, :dependent => :destroy
+  has_many :product_options
   has_and_belongs_to_many :related_products, :class_name => "Product", :join_table => "related_products", :foreign_key => "main_product_id", :association_foreign_key => "related_product_id"
 	has_and_belongs_to_many :product_categories
   has_permalink :name
