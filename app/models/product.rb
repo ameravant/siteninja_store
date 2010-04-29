@@ -2,14 +2,42 @@ class Product < ActiveRecord::Base
   has_many :images, :as => :viewable, :dependent => :destroy
   has_many :testimonials,  :as => :quotable, :dependent => :destroy
   has_many :features, :as => :featurable, :dependent => :destroy
-  has_many :product_options
+  has_many :product_options, :dependent => :destroy
   has_and_belongs_to_many :related_products, :class_name => "Product", :join_table => "related_products", :foreign_key => "main_product_id", :association_foreign_key => "related_product_id"
 	has_and_belongs_to_many :product_categories
-  has_permalink :name
-  validates_presence_of :name
-  validates_numericality_of :price, :sale_price, :allow_blank => true
+  has_permalink :title
+  validates_presence_of :title
   default_scope :order => "position"
   after_save :expire_cache
+  
+  validates_associated :product_options
+
+   after_update :save_product_options
+   
+   #Product options are checked for the delete option being set to true to destroy record
+   def existing_product_options=(product_options)     
+     product_options.each do |key, option|
+       if option[:delete] == "true"
+         self.product_options.find(key).destroy
+       else
+         self.product_options.find(key).update_attributes(option)
+       end
+     end
+   end
+   
+   def new_product_options=(product_options)
+     product_options.each do |option|
+       if option[:price] != "" and option[:delete] == "false"
+         self.product_options.build(option)
+       end
+     end
+   end
+
+   def save_product_options
+     product_options.each do |option|
+       option.save(false)
+     end
+   end
   
   def self.all_cached
     if ENV['RAILS_ENV'] == 'production'
@@ -20,19 +48,13 @@ class Product < ActiveRecord::Base
       find :all, :order => "position", :include => :images
     end
   end
-  
-  def real_price
-    unless self.price.blank?
-      self.sale_price.blank? ? self.price : self.sale_price
-    end
-  end
-  
-  def title
-    self.name 
-  end
 
+  def name
+    self.title
+  end
+  
   def all
-    find :all, :order => "name", :conditions => { :deleted => false }
+    find :all, :order => "title", :conditions => { :deleted => false }
   end
   
   def to_param

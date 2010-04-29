@@ -54,4 +54,16 @@ module Admin::ProductsHelper
       name
     end
   end
+  
+  def fields_for_product_option(product_option, &block)
+    prefix = product_option.new_record? ? "new" : "existing"
+    fields_for("product[#{prefix}_product_options][]", product_option, &block)
+  end
+
+  def add_product_option_link(name) 
+    link_to_function name do |page| 
+      page.insert_html :bottom, :product_options, :partial => 'product_option', :object => ProductOption.new 
+    end 
+  end
+  
 end

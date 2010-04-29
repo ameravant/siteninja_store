@@ -18,19 +18,20 @@ require 'webrat/core/matchers'
 require "#{RAILS_ROOT}/features/support/factories.rb"
 
 Webrat.configure do |config|
-  config.mode = :rails
+  config.mode = :selenium
   config.open_error_files = false # Set to true if you want error pages to pop up in the browser
 end
 
 ActionController::Base.allow_rescue = false
 
 Cucumber::Rails::World.use_transactional_fixtures = true
+#require 'database_cleaner'
 
-if defined?(ActiveRecord::Base)
-  begin
-    require 'database_cleaner'
-    DatabaseCleaner.strategy = :truncation
-  rescue LoadError => ignore_if_database_cleaner_not_present
+#DatabaseCleaner.strategy = :truncation
+
+class ActiveSupport::TestCase
+  setup do |session|
+    session.host! "localhost:3001"
   end
 end
 

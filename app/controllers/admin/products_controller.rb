@@ -1,6 +1,7 @@
 class Admin::ProductsController < AdminController
+  unloadable
   before_filter :find_product, :only => [ :edit, :update, :show, :destroy, :reorder ]
-  before_filter :find_categories, :only => [ :edit, :new ]
+  before_filter :find_categories, :only => [ :edit, :new, :update ]
   add_breadcrumb "Products", nil
 
   def index
@@ -9,6 +10,7 @@ class Admin::ProductsController < AdminController
 
   def new
     @product = Product.new
+    @product.product_options.build
     @products = Product.find(:all, :conditions => ["id != ?", @product.id])
   end
   
@@ -44,10 +46,12 @@ class Admin::ProductsController < AdminController
   end
   
   def update
+    params[:product][:existing_product_options] ||= {}
     if @product.update_attributes(params[:product])
       flash[:notice] = "#{@product.name} updated."
       redirect_to admin_products_path
     else
+      @products = Product.find(:all, :conditions => ["id != ?", @product.id])
       render :action => "edit"
     end
   end

@@ -4,7 +4,7 @@ end
 
 Factory.define :product_option do |f|
   options = %w(color size style)
-  f.sequence(:name) { |n| "#{options[rand(3)]}#{n}" }
+  f.sequence(:title) { |n| "#{options[rand(3)]}#{n}" }
   f.price  rand(30)
   f.available  true
 end

@@ -8,8 +8,8 @@ module NavigationHelpers
   def path_to(page_name)
     case page_name
     
-    when /the home\s?page/
-      '/'
+    when /home page/
+      root_path  
     when /the list of products/
       products_path
     when /admin_path/

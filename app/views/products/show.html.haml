@@ -7,22 +7,21 @@
   - content_for :footer do
     ==<script id="googlecart-script" type="text/javascript" src="http://checkout.google.com/seller/gsc/v2/cart.js?mid=#{@cms_config["site_settings"]["google_merchant_id"]}" post-to-sandbox="#{RAILS_ENV=="development"}" currency="USD"></script>
 
-%h1= @product.name
+%h1= @product.title
 = render :partial => "/shared/image_box", :locals => { :owner => @product } unless @product.images.empty?
 #pricing
-  %h2
-    Pricing
   %div{:class => "add-to-cart product"}
-    %span.product-title= @product.name
-    %br
+    = hidden_field_tag "product-title", @product.title, {:class => "product-title"}
+    = hidden_field_tag "product-attr-option", @product.product_options ? @product.product_options[0].title : nil, {:class => "product-attr-option"}
+    = collection_select :options, :option_id, @product.product_options, :price , :title, {}, {:onchange => "jQuery('.product-price').html(jQuery('#options_option_id').val()).formatCurrency(); jQuery('.product-attr-option').val(jQuery('#options_option_id option:selected').text());"}
     = "Size: #{@product.size}<br />" unless @product.size.blank?
     = "Product SKU: #{@product.sku}<br />" unless @product.sku.blank?
     = "Weight: #{@product} <br />" unless @product.weight.blank?
     -if @product.sale_price
-      %span.regular-price= "Price: #{number_to_currency(@product.price)}"
-      %span.sale-price.product-price= "Sale Price: #{number_to_currency(@product.sale_price)}"
+      %span.regular-price= "#{number_to_currency(@product.price)}"
+      %span.sale-price.product-price= "#{number_to_currency(@product.sale_price)}"
     -else
-      %span.product-price= "Price: #{number_to_currency(@product.price)}"
+      %span.product-price= "#{number_to_currency(@product.price)}"
     -if @product.weight
       %input.product-weight{:type=>"hidden", :value=>"#{@product.weight}"}
     %br

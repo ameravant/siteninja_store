@@ -37,6 +37,5 @@ module ProductsHelper
     else
       name
     end
-  end
-  
+  end  
 end

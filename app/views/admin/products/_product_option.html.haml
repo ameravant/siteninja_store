@@ -1,0 +1,13 @@
+%div{:class => "product_option"}
+  - fields_for_product_option(product_option) do |p|
+    %p
+      Title:
+      = p.text_field :title
+      Price:
+      = p.text_field :price, :size => 10
+      Sale price:
+      = p.text_field :sale_price, :size => 10
+      Available:
+      = p.check_box :available
+      = p.hidden_field :delete, {:class => "delete_#{product_option.id}", :value => "false" }
+      = link_to_function "remove", "jQuery(this).closest('.product_option').fadeOut('slow'); jQuery('.delete_#{product_option.id}').attr('value','true');"

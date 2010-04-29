@@ -4,6 +4,12 @@ Given /^the following (.+) records$/ do |factory, table|
   end
 end
 
-Then /^I should see "([^\"]*)" and "([^\"]*)"$/ do |arg1, arg2|
+When /^I visit product page for "([^\"]*)"$/ do |name|
+  product = Product.find_by_name!(name)
+  visit products_path(product)
+end
+
+When /^I select$/ do
   pending # express the regexp above with the code you wish you had
 end
+
