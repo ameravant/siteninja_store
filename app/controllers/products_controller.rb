@@ -5,8 +5,7 @@ class ProductsController < ApplicationController
 	before_filter :find_page
 
   def index
-  	
-    @products = Product.all
+    @products = Product.all(:conditions => { :featured => true })
     @heading = "Product"
     add_breadcrumb 'Product'
   end
