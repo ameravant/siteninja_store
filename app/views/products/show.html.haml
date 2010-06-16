@@ -12,23 +12,26 @@
 #pricing
   %div{:class => "add-to-cart product"}
     = hidden_field_tag "product-title", @product.title, {:class => "product-title"}
-    = hidden_field_tag "product-attr-option", @product.product_options ? @product.product_options[0].title : nil, {:class => "product-attr-option"}
-    = collection_select :options, :option_id, @product.product_options, :price , :title, {}, {:onchange => "jQuery('.product-price').html(jQuery('#options_option_id').val()).formatCurrency(); jQuery('.product-attr-option').val(jQuery('#options_option_id option:selected').text());"}
-    = "Size: #{@product.size}<br />" unless @product.size.blank?
+    = hidden_field_tag "product-attr-option", @product.product_options[0].title ? @product.product_options[0].title : nil, {:class => "product-attr-option"}
     = "Product SKU: #{@product.sku}<br />" unless @product.sku.blank?
     = "Weight: #{@product} <br />" unless @product.weight.blank?
-    -if @product.sale_price
-      %span.regular-price= "#{number_to_currency(@product.price)}"
-      %span.sale-price.product-price= "#{number_to_currency(@product.sale_price)}"
-    -else
-      %span.product-price= "#{number_to_currency(@product.price)}"
     -if @product.weight
       %input.product-weight{:type=>"hidden", :value=>"#{@product.weight}"}
     %br
-    - if !@product.cart_code.blank?
-      = @product.cart_code
-    - elsif @cms_config["site_settings"]["google_merchant_id"] and @product.display_add_cart and @product.price
-      %div.googlecart-add-button{:role=>"button", :alt=>"Add to cart", :tabindex=>"0", :style => "position: relative;"}
+    -if !@product.product_options.reject{|x| !x.available}.empty?
+      = hidden_field_tag "product-price", number_to_currency(@product.product_options[0].price), {:class => "product-price"}
+      -if @product.product_options.count > 1
+        %select
+          - @product.product_options.each do |po|
+            -if po.available
+              %option{:onclick => "option_switch(#{po.price}, '#{po.title}')"}
+                ="#{po.title}&mdash;#{number_to_currency(po.price, :unit => "$")}"
+      -else
+        = number_to_currency(@product.product_options[0].price)
+      - if !@product.cart_code.blank?
+        = @product.cart_code
+      - elsif @cms_config["site_settings"]["google_merchant_id"] and @product.display_add_cart and @product.product_options[0].price
+        %div.googlecart-add-button{:role=>"button", :alt=>"Add to cart", :tabindex=>"0", :style => "position: relative;"}
     
 %h2
   Description

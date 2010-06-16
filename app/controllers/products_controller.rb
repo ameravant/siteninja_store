@@ -5,7 +5,7 @@ class ProductsController < ApplicationController
 	before_filter :find_page
 
   def index
-    @products = Product.all(:conditions => { :featured => true })
+    @products = Product.find (:all, :conditions => {:active => true})
     @heading = "Product"
     add_breadcrumb 'Product'
   end
@@ -25,6 +25,16 @@ class ProductsController < ApplicationController
           add_breadcrumb product_category.title, product_category_path(product_category)
         end
 			end
+			if @product.product_options
+			  product_prices = []
+		    @product.product_options.each do |po|
+		      product_prices << [po.id,po.price,po.sale_price]
+		    end 
+        @product_price_string = ""
+        product_prices.each_with_index do |p, index|
+          @product_price_string += "[#{p.join(",")}]#{product_prices.length != index + 1 ? "," : ""}"
+        end
+		  end
 			add_breadcrumb @product.name
     rescue ActiveRecord::RecordNotFound
       flash[:error] = "The product you were looking for was not found."

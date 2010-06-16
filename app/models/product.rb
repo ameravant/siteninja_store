@@ -1,4 +1,5 @@
 class Product < ActiveRecord::Base
+  unloadable
   has_many :images, :as => :viewable, :dependent => :destroy
   has_many :testimonials,  :as => :quotable, :dependent => :destroy
   has_many :features, :as => :featurable, :dependent => :destroy
@@ -27,7 +28,7 @@ class Product < ActiveRecord::Base
    
    def new_product_options=(product_options)
      product_options.each do |option|
-       if option[:price] != "" and option[:delete] == "false"
+       if  option[:delete] == "false"
          self.product_options.build(option)
        end
      end

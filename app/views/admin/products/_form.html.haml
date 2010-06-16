@@ -20,6 +20,18 @@
     %dd.form-option
       = f.check_box :display_add_cart
     %dt.form-label
+      = f.label :active, "Active"
+    %dd.form-option
+      = f.check_box :active
+    %dt.form-label
+      = f.label :blurb
+    %dd.form-option
+      = f.text_area :blurb, :size => "50x5"
+    %dt.form-label
+      = f.label :description
+    %dd.form-option
+      = f.text_area :description, :size => "75x15", :class => "mceEditor"
+    %dt.form-label
       Add to Cart Code:
     %dd.form-option
       = f.text_area :cart_code, :size => "50x5"
@@ -32,7 +44,7 @@
           = render :partial => 'product_option', :collection => @product.product_options 
         -else
           = render :partial => 'product_option', :object => @product.product_options.build
-        = add_product_option_link "Add option"
+      = add_product_option_link "Add option"
     - unless @product_categories.empty?
       %dt.form-label
         Product Category:
