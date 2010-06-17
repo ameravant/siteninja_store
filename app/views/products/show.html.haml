@@ -24,7 +24,7 @@
         %select
           - @product.product_options.each do |po|
             -if po.available
-              %option{:onclick => "option_switch(#{po.price}, '#{po.title}')"}
+              %option{:onclick => "option_switch(#{po.price}, \"#{po.title}\")"}
                 ="#{po.title}&mdash;#{number_to_currency(po.price, :unit => "$")}"
       -else
         = number_to_currency(@product.product_options[0].price)
