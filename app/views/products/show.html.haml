@@ -4,6 +4,9 @@
 / Add google cart here if needed
 -if @cms_config["site_settings"]["google_merchant_id"]
   /Add this line to the script tag to enable sandbox testing
+  - content_for :head do
+    ==<script type='text/javascript'>function option_switch (price, option) {if(price != ''){jQuery('.product-price').val(price);}jQuery('.product-attr-option').val(option); return false;}</script>
+
   - content_for :footer do
     ==<script id="googlecart-script" type="text/javascript" src="http://checkout.google.com/seller/gsc/v2/cart.js?mid=#{@cms_config["site_settings"]["google_merchant_id"]}" post-to-sandbox="#{RAILS_ENV=="development"}" currency="USD"></script>
 
@@ -21,11 +24,11 @@
     -if !@product.product_options.reject{|x| !x.available}.empty?
       = hidden_field_tag "product-price", number_to_currency(@product.product_options[0].price), {:class => "product-price"}
       -if @product.product_options.count > 1
-        %select
-          - @product.product_options.each do |po|
+        .options_box
+          - @product.product_options.each_with_index do |po, x|
             -if po.available
-              %option{:onclick => "option_switch(#{po.price}, \"#{po.title}\")"}
-                ="#{po.title}&mdash;#{number_to_currency(po.price, :unit => "$")}"
+              =radio_button_tag ("product_options", po.id, x == 0 ? true : false, {:onclick => "option_switch(#{po.price}, \"#{po.title}\")"})
+              =label_tag "product_options_#{po.id}", "#{po.title}&mdash;#{number_to_currency(po.price, :unit => "$")}"
       -else
         = number_to_currency(@product.product_options[0].price)
       - if !@product.cart_code.blank?
