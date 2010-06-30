@@ -50,10 +50,6 @@
         Product Category:
       %dd.form-option
         - build_form_children(nil, @product)  
-      %dt.form-label
-        Description:
-      %dd.form-option
-        = f.text_area :description, :class => "mceEditor", :size => "70x30"
 
   - fancy_submit admin_products_path do
     = f.submit "Save Product"
@@ -63,10 +59,10 @@
       Related Products
     - @products.each do |p|
       %div
-        = check_box_tag "product[related_product_ids][]", p.id, @product.related_products.include?(p), :id => dom_id(p)
-      %label{ :for => dom_id(p) }
-        = h p.name.titleize
-        
+        %label{ :for => dom_id(p), :style => "width:250px;"}
+          = h p.name.titleize
+        = check_box_tag "product[related_product_ids][]", p.id, @product.related_products.include?(p), :id => dom_id(p)    
+      =clear
   - fancy_submit admin_products_path do
     = f.submit "Save Product"
 

@@ -37,8 +37,8 @@ module Admin::ProductsHelper
       # Output the list elements for these children, and recursively
       # call build_menu for their children.
       for child in children
-        concat "<li>" + check_box_tag("product[product_category_ids][]", child.id, product.product_categories.include?(child), :id => dom_id(child)) + "<label for=\"#{dom_id(child)}\">#{child.name}</label>" + "</li>"
-        build_form_children(child.id, product)
+        concat "<li>" + "<label for=\"#{dom_id(child)}\">#{child.name}</label>" + check_box_tag("product[product_category_ids][]", child.id, product.product_categories.include?(child), :id => dom_id(child)) + clear + "</li>"
+        build_form_children(child.id, product)        
       end
       concat "</ul>\n"
     end

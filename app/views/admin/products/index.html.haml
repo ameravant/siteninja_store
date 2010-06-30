@@ -43,14 +43,6 @@
           = link_to(pluralize(p.testimonials.size, "Testimonials"), admin_product_testimonials_path(p))
         %td.center
           - if current_user.has_role(["Admin", "Editor"])
-            - if p.images_count > 0
-              - if p.features_count > 0
-                = defeature_icon(p, "/admin/products/#{p.to_param}/features/1", p.title, "inline")
-                = feature_icon(p, [:admin, p, :features], p.title, "none")
-              - else
-                = feature_icon(p, [:admin, p, :features], p.title, "inline")
-                = defeature_icon(p, "/admin/products/#{p.to_param}/features/1", p.title, "none")
-            - else
-              = disabled_feature_icon(p, [:new, :admin, p, :feature], p.title)
+            = feature_icon_select(p, p.title)
           = link_to icon("Write"), edit_admin_product_path(p)
           = trash_icon(p, admin_product_path(p), "#{p.name}")
