@@ -9,6 +9,7 @@ class ProductCategoriesController < ApplicationController
       @productcategories = ProductCategory.all
       @topproductcategories = ProductCategory.all(:conditions => {:parent_id => nil})
       @productcategory = ProductCategory.find(params[:id])
+      @products = @productcategory.products.reject{|p| p.active != true}
       @product_category_tmp = []
       build_tree(@productcategory)
       for product_category in @product_category_tmp.reverse
