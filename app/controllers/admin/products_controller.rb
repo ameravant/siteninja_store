@@ -46,8 +46,13 @@ class Admin::ProductsController < AdminController
   end
   
   def update
-    params[:product][:existing_product_options] ||= {}
+    params[:product][:existing_product_options] ||= {}    
     if @product.update_attributes(params[:product])
+      #This is to remove product from categories if there are none selected
+      if !params[:product].has_key?("product_category_ids")
+        @product.product_categories = []
+        @product.save
+      end
       flash[:notice] = "#{@product.name} updated."
       redirect_to admin_products_path
     else
