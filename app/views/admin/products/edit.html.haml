@@ -3,7 +3,9 @@
   = yield :title
 %p
   = icon "Photo"
-  = link_to "Manage images for this product", admin_product_path(@product)
+  = link_to "Manage images for this product", admin_product_images_path(@product)
+  = icon "Bubble 3"
+  = link_to "Manage testimonials for this product", admin_product_testimonials_path(@product)
 - form_for [:admin, @product], :html => { :method => :put, :onsubmit => "form_submitted()" } do |f|
   = render :partial => "form", :locals => { :f => f }
 

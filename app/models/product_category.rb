@@ -2,6 +2,7 @@ class ProductCategory < ActiveRecord::Base
 	has_permalink :name
 	has_and_belongs_to_many :products
   default_scope :order => "parent_id, position"
+  
 	def to_param
     "#{self.id}-#{self.permalink}"
   end
@@ -20,7 +21,4 @@ class ProductCategory < ActiveRecord::Base
   	  false
   	end
   end
-  
-
-  
 end

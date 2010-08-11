@@ -38,7 +38,7 @@
     
 %h2
   Description
-= @product.description
+= ninja_parse(@product.description)
 
 /Related Products
 - unless @product.related_products.blank?
