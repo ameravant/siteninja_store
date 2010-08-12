@@ -29,11 +29,12 @@
             -if po.available
               =radio_button_tag ("product_options", po.id, x == 0 ? true : false, {:onclick => "option_switch(#{po.price}, \"#{po.title}\")"})
               =label_tag "product_options_#{po.id}", "#{po.title}&mdash;#{number_to_currency(po.price, :unit => "$")}"
+              %br
       -else
         = number_to_currency(@product.product_options[0].price)
       - if !@product.cart_code.blank?
         = @product.cart_code
-      - elsif @cms_config["site_settings"]["google_merchant_id"] and @product.display_add_cart and @product.product_options[0].price
+      - elsif @cms_config["site_settings"]["google_merchant_id"] and @product.display_add_cart and !@product.product_options.reject{|po| po.price == "" }.empty?
         %div.googlecart-add-button{:role=>"button", :alt=>"Add to cart", :tabindex=>"0", :style => "position: relative;"}
     
 %h2
