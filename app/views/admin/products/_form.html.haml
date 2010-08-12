@@ -33,7 +33,7 @@
         - unless @product.images.empty?
           = render :partial => "admin/shared/image_options", :locals => {:images => @product.images}
         - unless @product.testimonials.empty?
-          = render :partial => "admin/testimonials/testimonial_options", :locals => {:testimonials => @page.testimonials}
+          = render :partial => "admin/testimonials/testimonial_options", :locals => {:testimonials => @product.testimonials}
     %br
     %br
     %dt.form-label

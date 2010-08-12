@@ -1,5 +1,6 @@
 class Product < ActiveRecord::Base
   unloadable
+  acts_as_taggable
   has_many :images, :as => :viewable, :dependent => :destroy
   has_many :testimonials,  :as => :quotable, :dependent => :destroy
   has_many :features, :as => :featurable, :dependent => :destroy
