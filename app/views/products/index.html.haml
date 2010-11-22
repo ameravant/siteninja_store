@@ -7,5 +7,7 @@
 = render :partial => "sidecolumn2"
 %h1
   Products
-%ul.product-list
-  =render :partial => "product", :collection => @products.collect{|p| p.active ? p : ""}
+%div{:style => "float: left;"}
+  %ul.product-list
+    =render :partial => "product", :collection => @products.collect{|p| p.active ? p : ""}
+  = clear
