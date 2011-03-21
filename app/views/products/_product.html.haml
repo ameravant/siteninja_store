@@ -3,5 +3,6 @@
     =link_to image_tag(product.images.first.image.url(:medium), :title => product.title, :alt => product.title), product, :class => "product-image"
 
   %h2=link_to product.name, product
-  =number_to_currency product.product_options[0].price, :unit => '$' unless product.product_options[0].price.blank?
+  - unless product.product_options.empty?
+    =number_to_currency product.product_options[0].price, :unit => '$' unless product.product_options[0].price.blank?
 = cycle("", "", "<li class=\"clear\"></li>")
