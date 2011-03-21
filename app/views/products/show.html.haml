@@ -22,7 +22,7 @@
     -if @product.weight
       %input.product-weight{:type=>"hidden", :value=>"#{@product.weight}"}
     %br
-    - unless product.product_options.empty?
+    - unless @product.product_options.empty?
       -if !@product.product_options.reject{|x| !x.available}.empty?
         = hidden_field_tag "product-price", number_to_currency(@product.product_options[0].price), {:class => "product-price"}
         -if @product.product_options.count > 1
