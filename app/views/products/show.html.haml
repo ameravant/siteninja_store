@@ -15,7 +15,7 @@
 #pricing
   %div{:class => "add-to-cart product"}
     = hidden_field_tag "product-title", @product.title, {:class => "product-title"}
-    - unless product.product_options.empty?
+    - unless @product.product_options.empty?
       = hidden_field_tag "product-attr-option", @product.product_options[0].title ? @product.product_options[0].title : nil, {:class => "product-attr-option"}
     = "Product SKU: #{@product.sku}<br />" unless @product.sku.blank?
     = "Weight: #{@product} <br />" unless @product.weight.blank?
