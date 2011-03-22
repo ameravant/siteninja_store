@@ -36,7 +36,7 @@
         %td
           = link_to h(p.name), edit_admin_product_path(p), :title => "Edit this product"
         %td
-          - unless product.product_options.empty?
+          - unless p.product_options.empty?
             = number_to_currency p.product_options[0].price, :unit => '$' unless p.product_options[0].price.blank?
         %td
           = link_to pluralize(p.images_count, "Image"), admin_product_images_path(p), :title => "Manage images for this product"
