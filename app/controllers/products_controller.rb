@@ -5,7 +5,7 @@ class ProductsController < ApplicationController
 	before_filter :find_page
 
   def index
-    @products = Product.find (:all, :conditions => {:active => true})
+    @products = Product.find (:all, :conditions => {:active => true, :featured => true})
     @heading = "Product"
     add_breadcrumb 'Product'
   end
