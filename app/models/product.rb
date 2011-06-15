@@ -11,6 +11,7 @@ class Product < ActiveRecord::Base
   validates_presence_of :title
   default_scope :order => "position"
   after_save :expire_cache
+  accepts_nested_attributes_for :images
   
   validates_associated :product_options
 

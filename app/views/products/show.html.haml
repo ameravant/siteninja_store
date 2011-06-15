@@ -38,7 +38,7 @@
           = @product.cart_code
         - elsif @cms_config["site_settings"]["google_merchant_id"] and @product.display_add_cart and !@product.product_options.reject{|po| po.price == "" }.empty?
           %div.googlecart-add-button{:role=>"button", :alt=>"Add to cart", :tabindex=>"0", :style => "position: relative;"}
-    
+
 %h2
   Description
 = ninja_parse(@product.description)

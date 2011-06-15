@@ -11,7 +11,7 @@ namespace :admin do |admin|
   admin.resources :locations
 
   admin.resources :products, :has_many => :features do |product|
-      product.resources :images, :collection => { :reorder => :put }
+      product.resources :images, :collection => { :reorder => :put, :add_multiple => :get }
       product.resources :testimonials
     end
 end
