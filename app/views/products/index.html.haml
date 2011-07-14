@@ -6,7 +6,7 @@
     ==<script id="googlecart-script" type="text/javascript" src="http://checkout.google.com/seller/gsc/v2/cart.js?mid=#{@cms_config["site_settings"]["google_merchant_id"]}" post-to-sandbox="#{RAILS_ENV=="development"}" currency="USD"></script>
 = render :partial => "sidecolumn2"
 %h1
-  Products
+  = @cms_config['site_settings']['products_title'] ? @cms_config['site_settings']['products_title'] : "Products"
 %div{:style => "float: left;"}
   %ul.product-list
     =render :partial => "product", :collection => @products.collect{|p| p.active ? p : ""}
