@@ -12,7 +12,7 @@
 
 %h1= @product.title
 - if @cms_config["site_settings"]["basic_product_layout"]
-  = @product.description
+  = ninja_parse(@product.description)
 - else
   = render :partial => "/shared/image_box", :locals => { :owner => @product } unless @product.images.empty?
   #pricing
