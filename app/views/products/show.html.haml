@@ -9,39 +9,43 @@
 
   - content_for :footer do
     ==<script id="googlecart-script" type="text/javascript" src="http://checkout.google.com/seller/gsc/v2/cart.js?mid=#{@cms_config["site_settings"]["google_merchant_id"]}" post-to-sandbox="#{RAILS_ENV=="development"}" currency="USD"  hide-cart-when-empty="true"></script>
-= render :partial => "sidecolumn2"
-%h1= @product.title
-= render :partial => "/shared/image_box", :locals => { :owner => @product } unless @product.images.empty?
-#pricing
-  %div{:class => "add-to-cart product"}
-    = hidden_field_tag "product-title", @product.title, {:class => "product-title"}
-    - unless @product.product_options.empty?
-      = hidden_field_tag "product-attr-option", @product.product_options[0].title ? @product.product_options[0].title : nil, {:class => "product-attr-option"}
-    = "<div>Product SKU: #{@product.sku}</div>" unless @product.sku.blank?
-    = "<div>Weight: #{@product} </div>" unless @product.weight.blank?
-    -if @product.weight
-      %input.product-weight{:type=>"hidden", :value=>"#{@product.weight}"}
-    - unless @product.product_options.empty?
-      -if !@product.product_options.reject{|x| !x.available}.empty?
-        = hidden_field_tag "product-price", number_to_currency(@product.product_options[0].price), {:class => "product-price"}
-        -if @product.product_options.count > 1
-          .options_box
-            - @product.product_options.each_with_index do |po, x|
-              -if po.available
-                =radio_button_tag ("product_options", po.id, x == 0 ? true : false, {:onclick => "option_switch(#{po.price}, \"#{po.title}\")"})
-                =label_tag "product_options_#{po.id}", "#{po.title}&mdash;#{number_to_currency(po.price, :unit => "$")}"
-                %br
-        -else
-          .float-left
-            Price:
+
+- if @cms_config["site_settings"]["basic_product_layout"]
+  = ninja_parse(@product.description)
+- else
+
+  %h1= @product.title
+  = render :partial => "/shared/image_box", :locals => { :owner => @product } unless @product.images.empty?
+  #pricing
+    %div{:class => "add-to-cart product"}
+      = hidden_field_tag "product-title", @product.title, {:class => "product-title"}
+      - unless @product.product_options.empty?
+        = hidden_field_tag "product-attr-option", @product.product_options[0].title ? @product.product_options[0].title : nil, {:class => "product-attr-option"}
+      = "Product SKU: #{@product.sku}<br />" unless @product.sku.blank?
+      = "Weight: #{@product} <br />" unless @product.weight.blank?
+      -if @product.weight
+        %input.product-weight{:type=>"hidden", :value=>"#{@product.weight}"}
+      %br
+      - unless @product.product_options.empty?
+        -if !@product.product_options.reject{|x| !x.available}.empty?
+          = hidden_field_tag "product-price", number_to_currency(@product.product_options[0].price), {:class => "product-price"}
+          -if @product.product_options.count > 1
+            .options_box
+              - @product.product_options.each_with_index do |po, x|
+                -if po.available
+                  =radio_button_tag ("product_options", po.id, x == 0 ? true : false, {:onclick => "option_switch(#{po.price}, \"#{po.title}\")"})
+                  =label_tag "product_options_#{po.id}", "#{po.title}&mdash;#{number_to_currency(po.price, :unit => "$")}"
+                  %br
+          -else
             = number_to_currency(@product.product_options[0].price)
-        - if !@product.cart_code.blank?
-          = @product.cart_code
-        - elsif @cms_config["site_settings"]["google_merchant_id"] and @product.display_add_cart and !@product.product_options.reject{|po| po.price == "" }.empty?
-          %div.googlecart-add-button{:role=>"button", :alt=>"Add to cart", :tabindex=>"0", :style => "float: left; margin-left: 5px; "}
-        .clear-left
-%h2
-= ninja_parse(@product.description)
+          - if !@product.cart_code.blank?
+            = @product.cart_code
+          - elsif @cms_config["site_settings"]["google_merchant_id"] and @product.display_add_cart and !@product.product_options.reject{|po| po.price == "" }.empty?
+            %div.googlecart-add-button{:role=>"button", :alt=>"Add to cart", :tabindex=>"0", :style => "position: relative;"}
+
+  %h2
+    Description
+  = ninja_parse(@product.description)
 
 /Related Products
 - unless @product.related_products.blank?
@@ -54,3 +58,4 @@
 - unless @testimonial.blank?
   = render :partial => "sidecolumn"
   /= render :partial => "sidecolumn2"
+= render :partial => "sidecolumn2"
