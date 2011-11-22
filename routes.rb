@@ -1,11 +1,11 @@
 resources :stores, :cart_items, :shipping_addresses, :billing_addresses, :orders, :retailers
-resources :products, :has_many => [ :images, :testimonials ], :member => { :add_to_cart => :put }
+resources :products, :as => products_path, :has_many => [ :images, :testimonials ], :member => { :add_to_cart => :put }
 resources :product_categories
 resources :checkouts
 resource :cart
 
 namespace :admin do |admin|
-  admin.resources :orders, :shipping_methods, :retailers
+  #admin.resources :orders, :shipping_methods, :retailers
   admin.resources :product_categories, :collection => { :reorder => :put }, :member => { :reorder => :put }
   admin.resources :stores, :collection => { :csv_import => :post, :import => :get }
   admin.resources :locations
