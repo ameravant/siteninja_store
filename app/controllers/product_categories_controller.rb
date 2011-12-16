@@ -30,6 +30,7 @@ class ProductCategoriesController < ApplicationController
     @footer_pages = Page.find(:all, :conditions => {:show_in_footer => true}, :order => :footer_pos )
     @page = Page.find_by_permalink!('products')
     @productcategories = ProductCategory.all(:conditions => {:parent_id => nil})
+    @side_column_sections = ColumnSection.all(:conditions => {:column_id => @cms_config['site_settings']['products_side_column_id'], :visible => true}) if @cms_config['site_settings']['products_side_column_id']
   end
   
   def build_tree(current_product_category)

@@ -60,6 +60,8 @@ class ProductsController < ApplicationController
     @page = Page.find_by_permalink!('products')
     @productcategories = ProductCategory.all
     @topproductcategories = ProductCategory.all(:conditions => {:parent_id => nil})
+    @side_column_sections = ColumnSection.all(:conditions => {:column_id => @cms_config['site_settings']['products_side_column_id'], :visible => true}) if @cms_config['site_settings']['products_side_column_id']
+      
     # @product_category_tmp = []
     #     build_tree(@product_category)
     #     for product_category in @product_category_tmp.reverse

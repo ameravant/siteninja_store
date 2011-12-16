@@ -54,8 +54,9 @@
   %ul
     - for product in @product.related_products
       %li= link_to(product.name, product_path(product))
-
+- if @side_column_sections
+  = render :partial => "shared/side_column"
 - unless @testimonial.blank?
   = render :partial => "sidecolumn"
-  /= render :partial => "sidecolumn2"
-= render :partial => "sidecolumn2"
+- unless @cms_config['site_settings']['hide_products_list']
+  = render :partial => "sidecolumn2"
