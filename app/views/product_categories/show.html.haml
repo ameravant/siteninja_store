@@ -5,7 +5,7 @@
 - if @side_column_sections
   = render :partial => "shared/side_column"
 - unless @cms_config['site_settings']['hide_products_list']
-  = render :partial => "sidecolumn2"
+  = render :partial => "products/sidecolumn2"
 %h1= @productcategory.name
 = @productcategory.body
 %div{:style => "float: left;"}
