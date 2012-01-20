@@ -33,7 +33,7 @@
             .options_box
               - @product.product_options.each_with_index do |po, x|
                 -if po.available
-                  =radio_button_tag ("product_options", po.id, x == 0 ? true : false, {:onclick => "option_switch(#{po.price}, \"#{po.title}\")"})
+                  =radio_button_tag("product_options", po.id, x == 0 ? true : false, {:onclick => "option_switch(#{po.price}, \"#{po.title}\")"})
                   =label_tag "product_options_#{po.id}", "#{po.title}&mdash;#{number_to_currency(po.price, :unit => "$")}"
                   %br
           -else
