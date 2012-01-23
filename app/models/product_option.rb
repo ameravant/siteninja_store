@@ -1,5 +1,4 @@
 class ProductOption < ActiveRecord::Base
-  unloadable
   belongs_to :product
   attr_accessor :delete
   # before_save :check_prices

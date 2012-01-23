@@ -1,4 +1,4 @@
-resources :stores, :cart_items, :shipping_addresses, :billing_addresses, :orders, :retailers
+#resources :stores, :cart_items, :shipping_addresses, :billing_addresses, :orders, :retailers
 resources :products, :as => products_path, :has_many => [ :images, :testimonials ], :member => { :add_to_cart => :put }
 resources :product_categories
 resources :checkouts
