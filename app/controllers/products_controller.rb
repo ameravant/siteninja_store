@@ -22,7 +22,7 @@ class ProductsController < ApplicationController
         @product_category_tmp = []
         build_tree(@productcategory)
         for product_category in @product_category_tmp.reverse
-          add_breadcrumb 'product_category.title', 'product_category_path(product_category)'
+          add_breadcrumb 'product_category.title', product_category_path(product_category)
         end
 			end
 			if @product.product_options
