@@ -1,0 +1,2 @@
+%ul.product-list
+  =render :partial => "product", :collection => @products.collect{|p| p.active ? p : ""}

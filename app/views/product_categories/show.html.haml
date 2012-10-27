@@ -2,14 +2,17 @@
   = @productcategory.name
 - content_for(:meta_description) do
   = @productcategory.description
-- if @side_column_sections
-  = render :partial => "shared/side_column"
-- unless @cms_config['site_settings']['hide_products_list']
-  = render :partial => "products/sidecolumn2"
-%h1= @productcategory.name
-= @productcategory.body
-%div{:style => "float: left;"}
-  %ul.product-list
-    -@products.each do |p|
-      = render :partial => "/products/product", :locals => { :product => p }
-  = clear
+- if !@cms_config['site_settings']['enable_responsive_layouts']
+  - if @side_column_sections
+    = render :partial => "shared/side_column"
+  - unless @cms_config['site_settings']['hide_products_list']
+    = render :partial => "products/sidecolumn2"
+  %h1= @productcategory.name
+  = @productcategory.body
+  %div{:style => "float: left;"}
+    %ul.product-list
+      -@products.each do |p|
+        = render :partial => "/products/product", :locals => { :product => p }
+    = clear
+- else
+  = render :partial => "shared/slice", :locals => {:column_section_id => nil, :controller => "product_categories", :action => "show"}, :collection => @main_column_sections

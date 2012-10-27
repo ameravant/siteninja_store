@@ -15,7 +15,8 @@ class ProductsController < ApplicationController
       @menu_selected = "products"
       @product = Product.find params[:id], :conditions => { :active => true, :deleted => false }
       @heading = @product.name
-      @testimonial = Testimonial.find(:all, :conditions => ["quotable_id = ?" , @product.id]).sort_by(&:rand).first #Select a random testimonial
+      @main_column = (@tmplate.event_layout_id ? Column.find(@tmplate.product_layout_id) : Column.first(:conditions => {:column_location => "product"}))
+      @main_column_sections = ColumnSection.all(:conditions => {:column_id => @main_column.id, :visible => true, :column_section_id => nil})
       add_breadcrumb 'Products', 'products_path'
       if @product.product_categories.any?
         @productcategory = @product.product_categories.first
@@ -64,9 +65,12 @@ class ProductsController < ApplicationController
   def find_page
     @footer_pages = Page.find(:all, :conditions => {:show_in_footer => true}, :order => :footer_pos )
     @page = Page.find_by_permalink!('products')
+    @main_column = ((@page.main_column_id.blank? or Column.find_by_id(@page.main_column_id).blank?) ? Column.first(:conditions => {:title => "Default", :column_location => "main_column"}) : Column.find(@page.main_column_id))
+    @main_column_sections = ColumnSection.all(:conditions => {:column_id => @main_column.id, :visible => true, :column_section_id => nil})
     @productcategories = ProductCategory.all
     @topproductcategories = ProductCategory.all(:conditions => {:parent_id => nil})
     @side_column_sections = ColumnSection.all(:conditions => {:column_id => @cms_config['site_settings']['products_side_column_id'], :visible => true}) if @cms_config['site_settings']['products_side_column_id']
+    
       
     # @product_category_tmp = []
     #     build_tree(@product_category)

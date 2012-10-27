@@ -1,0 +1,5 @@
+- unless @product.related_products.blank?
+  %h2= title
+  %ul
+    - for product in @product.related_products
+      %li= link_to(product.name, product_path(product))

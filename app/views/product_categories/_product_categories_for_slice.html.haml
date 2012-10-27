@@ -1,0 +1,22 @@
+- @productcategories = ProductCategory.all
+- @topproductcategories = ProductCategory.all(:conditions => {:parent_id => nil})
+- if @productcategory
+  - temp_productcategory = @productcategory
+  - productcategory_tree = []
+  - top_productcategory = nil
+  - while top_productcategory.nil?
+    - productcategory_tree << temp_productcategory.id
+    - if temp_productcategory.parent_id.nil?
+      - top_productcategory = temp_productcategory
+    - else
+      - temp_productcategory = @productcategories.detect { |menu_productcategory| menu_productcategory.id == temp_productcategory.parent_id }
+  - productcategory_tree.reverse!
+%ul{:class => "products-menu submenu-inner"}
+  %li
+    =link_to "Products", products_path
+    %ul
+      - for pc in @topproductcategories
+        %li
+          =link_to pc.name, pc
+          - if @productcategory and top_productcategory == pc
+            - build_children(pc.id)
