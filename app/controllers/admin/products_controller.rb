@@ -5,7 +5,7 @@ class Admin::ProductsController < AdminController
   add_breadcrumb "Products", nil
 
   def index
-    @products = Product.all.paginate(:page => params[:page], :per_page => 25)
+    params[:q].blank? ? @products = Product.all.paginate(:page => params[:page], :per_page => 25) : @products = Product.find(:all, :conditions => ["title like ?", "%#{params[:q]}%"]).paginate(:page => params[:page], :per_page => 25)
   end
 
   def new

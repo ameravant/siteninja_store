@@ -1,12 +1,18 @@
 - content_for(:title) { concat "Products" }
 %h1
   = yield :title
-%p.icon
-  = icon "Plus", new_admin_product_path
-  = link_to "Create a new product", new_admin_product_path
   
-  = icon "Dots Down", admin_product_categories_path
-  = link_to "View Product Categories", admin_product_categories_path
+.box
+  .float-right= render :partial => "/shared/search"
+  %ul
+    %li
+      %span.hmenu
+        = icon "Plus", new_admin_product_path
+        = link_to "Create a new product", new_admin_product_path
+    %li
+      %span.hmenu
+        = icon "Dots Down", admin_product_categories_path
+        = link_to "View Product Categories", admin_product_categories_path
   
   / - if @cms_config['modules']['store']
   /   = icon "Mail", admin_shipping_methods_path
