@@ -22,8 +22,6 @@
       %li= link_to(letter.capitalize, "/admin/products?letter=#{letter}")
 = clear
 
-- unless @products.total_pages == 1
-  = will_paginate @products
 %table.full{ :cellspacing => "0", :style => "width: 100%;" }
   %thead
     %tr
@@ -54,3 +52,7 @@
             = feature_icon_select(p, p.title)
           = link_to icon("Write"), edit_admin_product_path(p)
           = trash_icon(p, admin_product_path(p), "#{p.name}")
+          
+
+- unless @products.total_pages == 1
+  = will_paginate @products
