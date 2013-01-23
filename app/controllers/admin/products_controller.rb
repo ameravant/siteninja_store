@@ -6,9 +6,9 @@ class Admin::ProductsController < AdminController
 
   def index
     if params[:letter]
-        @products_count = Product.all(:conditions => ["title like ?", "#{params[:letter]}%"])
+        @products_count = Product.all(:conditions => ["title like ?", "#{params[:letter]}%"], :order => "title")
     else
-      params[:q].blank? ? @products_count = Product.all : @products_count = Product.find(:all, :conditions => ["title like ?", "%#{params[:q]}%"])
+      params[:q].blank? ? @products_count = Product.all(:order => "title") : @products_count = Product.find(:all, :conditions => ["title like ?", "%#{params[:q]}%"], :order => "title")
     end
     @products = @products_count.paginate(:page => params[:page], :per_page => 25)
   end
