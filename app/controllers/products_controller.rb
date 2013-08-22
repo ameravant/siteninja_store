@@ -15,7 +15,7 @@ class ProductsController < ApplicationController
       @menu_selected = "products"
       @product = Product.find params[:id], :conditions => { :active => true, :deleted => false }
       @heading = @product.name
-      @main_column = (@tmplate.event_layout_id ? Column.find(@tmplate.product_layout_id) : Column.first(:conditions => {:column_location => "product"}))
+      @main_column = (@tmplate.product_layout_id ? Column.find(@tmplate.product_layout_id) : Column.first(:conditions => {:column_location => "product"}))
       @main_column_sections = ColumnSection.all(:conditions => {:column_id => @main_column.id, :visible => true, :column_section_id => nil})
       add_breadcrumb 'Products', 'products_path'
       if @product.product_categories.any?
