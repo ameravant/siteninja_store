@@ -1,0 +1,10 @@
+- if @product and @product.images.size > 1
+  - @product.images.sort_by(&:position).each_with_index do |image, i|
+    .image
+      .image-thumb-container
+        .image-thumb
+          - unless (image.description.blank? and image.show_rating? and !image.video_url.blank?) or section.section_format == "fancy"
+            = link_to image_tag(image.thumbnail, :alt => h(image.title), :title => h(image.title)), [@product, image]
+          - else
+            = link_to image_tag(image.thumbnail, :alt => h(image.title), :title => h(image.title)), image.image.url(:large), :class => "fancy", :rel => "product", :title => h(image.title)
+.clear
