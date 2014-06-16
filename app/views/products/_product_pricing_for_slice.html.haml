@@ -1,4 +1,4 @@
-- if section.section_format == ""
+- if section.section_format == "" or section.section_format == nil
   #pricing
     %div{:class => "add-to-cart product"}
       = hidden_field_tag "product-title", @product.title, {:class => "product-title"}
