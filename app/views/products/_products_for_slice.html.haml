@@ -4,9 +4,9 @@
   - categories << category.id
 - count = section.count
 - if section.show_all_categories == true
-  - products = Product.active[0..(count - 1)]
+  - products = Product.featured[0..(count - 1)]
 - else
-  - products = Product.active.reject{|p| !(p.product_category_ids.any? {|pc| categories.include?(pc)})}[0..count-1]
+  - products = Product.featured.reject{|p| !(p.product_category_ids.any? {|pc| categories.include?(pc)})}[0..count-1]
 
 %ul.product-list
   - if section.section_format == ""
