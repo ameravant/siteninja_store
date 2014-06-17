@@ -1,0 +1,36 @@
+- cspc = section.product_categories
+- categories = []
+- for category in cspc
+  - categories << category.id
+- count = section.count
+- if section.show_all_categories == true
+  - products = Product.active[0..(count - 1)]
+- else
+  - products = Product.active.reject{|p| !(p.product_category_ids.any? {|pc| categories.include?(pc)})}[0..count-1]
+
+%ul.product-list
+  - if section.section_format == ""
+    - for product in products
+      %li.product
+        - unless product.images.blank? 
+          =link_to image_tag(product.images.first.thumbnail, :title => product.title, :alt => product.title), product, :class => "product-image"
+
+        %h3=link_to product.name, product
+        - unless product.product_options.empty?
+          =number_to_currency product.product_options[0].price, :unit => '$' unless product.product_options[0].price.blank?
+  - elsif section.section_format == "extended"
+    - for product in products
+      %li.product
+        - unless product.images.blank? 
+          =link_to image_tag(product.images.first.thumbnail, :title => product.title, :alt => product.title), product, :class => "product-image"
+
+        %h3= link_to product.name, product
+        - if !product.product_options.empty? and !product.product_options[0].price.blank?
+          .product-price
+            %span.product-price-title==Price: 
+            = number_to_currency(product.product_options[0].price, :unit => '$') unless product.product_options[0].price.blank?
+        - if !product.blurb.blank?
+          .product-description
+            = product.blurb
+        .product-more-info
+          = link_to("More Info", product)
