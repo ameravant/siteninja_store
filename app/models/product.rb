@@ -11,6 +11,7 @@ class Product < ActiveRecord::Base
   default_scope :order => "position"
   after_save :expire_cache
   accepts_nested_attributes_for :images
+  named_scope :active, {:conditions => {:active => true}}
   
   validates_associated :product_options
 
