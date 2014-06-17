@@ -4,16 +4,16 @@
   /Add this line to the script tag to enable sandbox testing
   - content_for :footer do
     ==<script id="googlecart-script" type="text/javascript" src="http://checkout.google.com/seller/gsc/v2/cart.js?mid=#{@cms_config["site_settings"]["google_merchant_id"]}" post-to-sandbox="#{RAILS_ENV=="development"}" currency="USD" hide-cart-when-empty="true"></script>
-- if @cms_config['site_settings']['enable_responsive_layouts']
-  = render :partial => "shared/slice", :locals => {:column_section_id => nil, :controller => "products", :action => "index"}, :collection => @main_column_sections
-- else
+- if !@cms_config['site_settings']['enable_responsive_layouts']
   - if @side_column_sections
     = render :partial => "shared/side_column"
   - unless @cms_config['site_settings']['hide_products_list']
     = render :partial => "sidecolumn2"
   %h1
     = @cms_config['site_settings']['products_title'] ? @cms_config['site_settings']['products_title'] : "Products"
-  %div{:style => "float: left;"}
+  %div
     %ul.product-list
       =render :partial => "product", :collection => @products.collect{|p| p.active ? p : ""}
   = clear
+- else
+  = render :partial => "shared/slice", :locals => {:column_section_id => nil, :controller => "products", :action => "index"}, :collection => @main_column_sections
