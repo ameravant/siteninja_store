@@ -9,7 +9,7 @@
     = render :partial => "products/sidecolumn2"
   %h1= @productcategory.name
   = @productcategory.body
-  %div{:style => "float: left;"}
+  %div
     %ul.product-list
       -@products.each do |p|
         = render :partial => "/products/product", :locals => { :product => p }
