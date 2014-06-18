@@ -1,8 +1,24 @@
-%li.product
-  - unless product.images.blank? 
-    =link_to image_tag(product.images.first.thumbnail, :title => product.title, :alt => product.title), product, :class => "product-image"
+- if @cms_config["cms_settings"]["extended_product_details"]
+  %li.product
+    - unless product.images.blank? 
+      =link_to image_tag(product.images.first.thumbnail, :title => product.title, :alt => product.title), product, :class => "product-image"
 
-  %h2=link_to product.name, product
-  - unless product.product_options.empty?
-    =number_to_currency product.product_options[0].price, :unit => '$' unless product.product_options[0].price.blank?
-= cycle("", "", "<li class=\"clear\"></li>")
+    %h3= link_to product.name, product
+    - if !product.product_options.empty? and !product.product_options[0].price.blank?
+      .product-price
+        %span.product-price-title==Price: 
+        = number_to_currency(product.product_options[0].price, :unit => '$') unless product.product_options[0].price.blank?
+    - if !product.blurb.blank?
+      .product-description
+        = product.blurb
+    .product-more-info
+      = link_to("More Info", product)
+- else
+  %li.product
+    - unless product.images.blank? 
+      =link_to image_tag(product.images.first.thumbnail, :title => product.title, :alt => product.title), product, :class => "product-image"
+
+    %h2=link_to product.name, product
+    - unless product.product_options.empty?
+      =number_to_currency product.product_options[0].price, :unit => '$' unless product.product_options[0].price.blank?
+  = cycle("", "", "<li class=\"clear\"></li>")
