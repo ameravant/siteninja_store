@@ -65,6 +65,7 @@ class ProductsController < ApplicationController
   def find_page
     @footer_pages = Page.find(:all, :conditions => {:show_in_footer => true}, :order => :footer_pos )
     @page = Page.find_by_permalink!('products')
+    @body_class = "store-body"
     @main_column = ((@page.main_column_id.blank? or Column.find_by_id(@page.main_column_id).blank?) ? Column.first(:conditions => {:title => "Default", :column_location => "main_column"}) : Column.find(@page.main_column_id))
     @main_column_sections = ColumnSection.all(:conditions => {:column_id => @main_column.id, :visible => true, :column_section_id => nil})
     @productcategories = ProductCategory.all
