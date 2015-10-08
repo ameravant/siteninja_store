@@ -1,6 +1,9 @@
 - content_for(:meta_title) 
   Store
   = " - Page #{params[:page]}" if params[:page]
+- content_for :meta_description do
+  = "A listing of products"
+  = " - Page #{params[:page]}" if params[:page]
 / Add google cart here if needed
 -if @cms_config["site_settings"]["google_merchant_id"]
   /Add this line to the script tag to enable sandbox testing
