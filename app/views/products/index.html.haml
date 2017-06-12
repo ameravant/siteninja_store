@@ -1,13 +1,13 @@
-- if @cms_config["modules"]["store"]
+- if @cms_config["modules"]["store"] or @cms_config["modules"]["products"]
   - content_for(:meta_title) 
     Store
     = " - Page #{params[:page]}" if params[:page]
-  - content_for :meta_description do
+  - content_for :meta_description
     = "A listing of products"
     = " - Page #{params[:page]}" if params[:page]
-  / Add google cart here if needed
-  -if @cms_config["site_settings"]["google_merchant_id"]
-    /Add this line to the script tag to enable sandbox testing
+  =# Add google cart here if needed
+  - if @cms_config["site_settings"]["google_merchant_id"]
+    =# Add this line to the script tag to enable sandbox testing
     - content_for :footer do
       ==<script id="googlecart-script" type="text/javascript" src="http://checkout.google.com/seller/gsc/v2/cart.js?mid=#{@cms_config["site_settings"]["google_merchant_id"]}" post-to-sandbox="#{RAILS_ENV=="development"}" currency="USD" hide-cart-when-empty="true"></script>
   - if !@cms_config['site_settings']['enable_responsive_layouts']
@@ -24,4 +24,4 @@
   - else
     = render :partial => "shared/slice", :locals => {:column_section_id => nil, :controller => "products", :action => "index"}, :collection => @main_column_sections
 - else
-  render :partial => "pages/show"
+  = render :partial => "pages/show"
